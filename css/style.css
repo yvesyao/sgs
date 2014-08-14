@@ -1,0 +1,68 @@
+#card {
+	border: 1px solid #aaa;
+	box-shadow: 2px 2px 8px #bbb;
+	color: #333;
+	display: block;
+	float: left;
+	border-radius: 5px;
+	/* 
+	text-shadow: 1px 1px #bbb; */
+	font: normal 20px Arial;
+}
+caption {
+	padding: 0.5em 0;
+}
+#card th, #card td {
+	padding: 0.1em 0.5em;
+}
+#card th {
+	background-color: #717dbd;
+	color: #fff;
+}
+#card tbody td:hover {
+	cursor: pointer;
+}
+#card tbody tr:nth-child(even) {
+	background-color: #6699d2;
+	text-shadow: 1px 1px #77aae3;
+}
+#card td.active {
+	background-color: #55c5d0;
+}
+#card th.hover {
+	background-color: #79aede;
+}
+
+#result {
+	padding: 0.5em 1em;
+	float: left;
+	font-size: 14px;
+}
+
+input {
+	font-size: 13px;
+	border: 1px solid #999;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 0.5em 0 1em 0;
+}
+
+input:focus {
+	outline: none;
+	border-color: #6699d2;
+	box-shadow: 0px 0px 3px #6699d2;
+}
+
+.upperCase {
+	text-transform : uppercase;
+}
+
+#current {
+	color: #6699d2;
+	font: bold 50px sans-serif, Arial;
+	text-align: center;
+	border: 3px solid #aaa;
+	border-radius: 10px;
+	margin-top: 2em;
+	display: none;
+}
