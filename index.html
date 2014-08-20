@@ -69,17 +69,25 @@
 		</label>
 		<br>
 		<label>序列号结果：
-			<input type="text" id="code" readonly onclick="copyToClipboard();"></span>
-			<a href="#" id="copy-dynamic" onclick="copyToClipboard();">复制到剪贴板。</a>
+			<input type="text" id="code" readonly></span>
 		</label>
 		<div id="current"></div>
 	</div>
 	
 
-
+<!-- extra javascripts -->
 	<script src="./js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="./js/ZeroClipboard.min.js"></script>
+<!-- /extra javascripts -->
 	<script type="text/javascript">
 	window.$ && $(function() {
+		ZeroClipboard.config( { swfPath: "http://yyt182.github.io/sgs/js/ZeroClipboard.swf" } );
+		var client = new ZeroClipboard($("#code"));
+		client.on( "copy", function (event) {
+		  var clipboard = event.clipboardData;
+		  var code = $('#code').val()
+		  clipboard.setData( "text/plain", code);
+		});
 		$('a[href="#"]').click(function(event) {
 			/* Act on the event */
 			event.preventDefault();
