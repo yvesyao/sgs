@@ -70,7 +70,7 @@
 		<br>
 		<label>序列号结果：
 			<input type="text" id="code" data-clipboard-target="#code" readonly></span>
-			<button id = "copy">复制</button>
+			<span id="forLoadSwf">复制</span>
 		</label>
 		<div id="current"></div>
 	</div>
@@ -78,19 +78,27 @@
 
 <!-- extra javascripts -->
 	<script src="js/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="js/ZeroClipboard.js"></script> 
+	<script src="http://libs.baidu.com/swfobject/2.2/swfobject.js" type="text/javascript"></script>
 <!-- /extra javascripts -->
 	<script type="text/javascript">
 	window.$ && $(function() {
 
-		// 全局设置 
-		ZeroClipboard.setMoviePath( "js/ZeroClipboard.swf" );
-		var clip = new ZeroClipboard.Client(); // 新建一个对象 
-		clip.setHandCursor( true ); // 设置鼠标为手型 
-		clip.setText("哈哈"); // 设置要复制的文本。 
-		// 注册一个 button，参数为 id。点击这个 button 就会复制。 
-		//这个 button 不一定要求是一个 input 按钮，也可以是其他 DOM 元素。 
-		clip.glue("copy"); // 和上一句位置不可调换  
+		var copyCon = document.getElementById("zxxTestArea").value;
+		var flashvars = {
+		    content: encodeURIComponent(copyCon),
+		    uri: 'image/flash_copy_btn.png'
+		};
+		var params = {
+		    wmode: "transparent",
+		    allowScriptAccess: "always"
+		};
+		swfobject.embedSWF("js/clipboard.swf", "forLoadSwf", "52", "25", "9.0.0", null, flashvars, params);
+
+		function copySuccess(){
+		    //flash回调
+		    alert("复制成功！");
+		}
+
 		 
 		$('a[href="#"]').click(function(event) {
 			/* Act on the event */
@@ -128,11 +136,6 @@
 			/* Act on the event */
 			$(this)[0].value=$(this).val().replace(/\W+/g, ' ');
 			getCode();
-		});
-
-		$('#code').click(function(event) {
-			/* Act on the event */
-			copyIntoClipboard($(this).val());
 		});
 	});
 
