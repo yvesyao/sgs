@@ -69,25 +69,29 @@
 		</label>
 		<br>
 		<label>序列号结果：
-			<input type="text" id="code" readonly></span>
+			<input type="text" id="code" data-clipboard-target="#code" readonly></span>
+			<button id = "copy">复制</button>
 		</label>
 		<div id="current"></div>
 	</div>
 	
 
 <!-- extra javascripts -->
-	<script src="./js/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="./js/ZeroClipboard.min.js"></script>
+	<script src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/ZeroClipboard.js"></script> 
 <!-- /extra javascripts -->
 	<script type="text/javascript">
 	window.$ && $(function() {
-		ZeroClipboard.config( { swfPath: "http://yyt182.github.io/sgs/js/ZeroClipboard.swf" } );
-		var client = new ZeroClipboard($("#code"));
-		client.on( "copy", function (event) {
-		  var clipboard = event.clipboardData;
-		  var code = $('#code').val()
-		  clipboard.setData( "text/plain", code);
-		});
+
+		// 全局设置 
+		ZeroClipboard.setMoviePath( "js/ZeroClipboard.swf" );
+		var clip = new ZeroClipboard.Client(); // 新建一个对象 
+		clip.setHandCursor( true ); // 设置鼠标为手型 
+		clip.setText("哈哈"); // 设置要复制的文本。 
+		// 注册一个 button，参数为 id。点击这个 button 就会复制。 
+		//这个 button 不一定要求是一个 input 按钮，也可以是其他 DOM 元素。 
+		clip.glue("copy"); // 和上一句位置不可调换  
+		 
 		$('a[href="#"]').click(function(event) {
 			/* Act on the event */
 			event.preventDefault();
@@ -125,6 +129,11 @@
 			$(this)[0].value=$(this).val().replace(/\W+/g, ' ');
 			getCode();
 		});
+
+		$('#code').click(function(event) {
+			/* Act on the event */
+			copyIntoClipboard($(this).val());
+		});
 	});
 
 	function getCode() {
@@ -142,7 +151,26 @@
 		$('#code').val(_code);
 	}
 
-	function copyToClipboard() {
+	function copyIntoClipboard(text) {
+
+	    var flashId = 'flashId-HKxmj5';
+
+	    /* Replace this with your clipboard.swf location */
+	    var clipboardSWF = 'js/ZeroClipboard.swf';
+
+	    if(!document.getElementById(flashId)) {
+	        var div = document.createElement('div');
+	        div.id = flashId;
+	        document.body.appendChild(div);
+	    }
+	    document.getElementById(flashId).innerHTML = '';
+	    var content = '<embed src="' + 
+	        clipboardSWF +
+	        '" FlashVars="clipboard=' + encodeURIComponent(text) +
+	        '" width="0" height="0" type="application/x-shockwave-flash"></embed>';
+	    document.getElementById(flashId).innerHTML = content;
+	}
+	/*function copyToClipboard() {
 		var txt = $('#code').val();
 		if  (window.clipboardData)  { 
 			window.clipboardData.clearData(); 
@@ -178,7 +206,7 @@
 			clip.setData(trans,  null,  clipid.kGlobalClipboard); 
 			alert("已经成功复制到剪帖板上！"); 
 		}
-	}
+	}*/
 	</script>
 </body>
 </html>
