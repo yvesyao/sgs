@@ -69,17 +69,33 @@
 		</label>
 		<br>
 		<label>序列号结果：
-			<input type="text" id="code" readonly onclick="copyToClipboard();"></span>
-			<a href="#" id="copy-dynamic" onclick="copyToClipboard();">复制到剪贴板。</a>
+			<input type="text" id="code" readonly onclick="copyToClipboard();">
+			<button id="copy-button" data-clipboard-target="code" title="Click to copy me.">复制</button>
 		</label>
 		<div id="current"></div>
 	</div>
-	
 
+
+    <script src="./js/ZeroClipboard.js"></script>
 
 	<script src="./js/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript">
 	window.$ && $(function() {
+		ZeroClipboard.config( { swfPath: "./js/ZeroClipboard.swf" } );
+		var client = new ZeroClipboard($("#copy-button"));
+		console.log( 'dssssssssssssssssss' );
+		client.on( 'ready', function(event) {
+	        console.log( 'movie is loaded' );
+
+	        client.on( 'copy', function(event) {
+	          event.clipboardData.setData('text/plain', event.target.innerHTML);
+	        } );
+
+	        client.on( 'aftercopy', function(event) {
+	          console.log('Copied text to clipboard: ' + event.data['text/plain']);
+	        } );
+	      } );
+
 		$('a[href="#"]').click(function(event) {
 			/* Act on the event */
 			event.preventDefault();
@@ -120,7 +136,7 @@
 	});
 
 	function getCode() {
-		var _val = $('#source').val().toUpperCase().replace(/\s$/g, '');
+		var _val = $('#source').val().toUpperCase().trim();
 		var _values = _val.split(' ');
 		var _code = '';
 		for (var i = 0; i < _values.length; i++) {
