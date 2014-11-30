@@ -92,6 +92,13 @@
 	        } );
 	      } );
 
+		$('#source').keypress(function(event) {
+			/* Act on the event */
+			if (event.which == 13) {//回车
+				$('#copy-button').click();
+			};
+		});
+
 		$('a[href="#"]').click(function(event) {
 			/* Act on the event */
 			event.preventDefault();
